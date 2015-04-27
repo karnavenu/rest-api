@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+
+    <display-name>Webapp Name</display-name>
+    <!--
+    ****************************************************************
+       FILTERS
+    ****************************************************************
+    
+    <!--
+    ****************************************************************
+       SERVLET FOR CHARTING
+    ****************************************************************
+    -->
+    <servlet>
+
+
+        <!-- sets the cache size to 5MB -->
+        <init-param>
+            <param-name>cachesize</param-name>
+            <param-value>2242880</param-value>
+        </init-param>
+
+        <!-- image must at least stay for 1 minute if not accessed -->
+        <init-param>
+            <param-name>accesswait</param-name>
+            <param-value>60000</param-value>
+        </init-param>
+
+        <!-- turn on or off debugging logging -->
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+<!--
+Automatically created by Apache Jakarta Tomcat JspC.
+Place this fragment in the web.xml before all icon, display-name,
+description, distributable, and context-param elements.
+-->   
+
+   <servlet>
+       <servlet-name>Jersey REST Service</servlet-name>
+       <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+       <init-param>
+               <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+               <param-value>true</param-value>
+       </init-param>
+       <init-param>
+               <param-name>com.sun.jersey.config.property.packages</param-name>
+               <param-value>com.apis.restapi.v1</param-value>
+       </init-param>
+       <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+           <servlet-name>Jersey REST Service</servlet-name>
+           <url-pattern>/*</url-pattern>
+   </servlet-mapping>
+
+    <servlet>
+       <servlet-name>OAuthProtectedRestService</servlet-name>
+       <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+       <init-param>
+               <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+               <param-value>true</param-value>
+       </init-param>
+       <init-param>
+               <param-name>com.sun.jersey.config.property.packages</param-name>
+               <param-value>com.apis.restapi.v1</param-value>
+       </init-param>
+       <init-param>
+  			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
+  			<param-value>com.apis.restapi.filter.OAuthRestFilter</param-value>
+		</init-param>
+       <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+		<servlet-name>OAuthProtectedRestService</servlet-name>
+		<url-pattern>/secure/*</url-pattern>
+    </servlet-mapping>
+    
+    
+        <!-- END Universal Importer Related entries -->
+    <!--
+    ****************************************************************
+       WebApp Configuration
+    ****************************************************************
+    -->
+
+    <session-config>
+        <!-- 30 minutes -->
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>index.htm</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/serverError.html</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/notFoundError.html</location>
+    </error-page>    
+
+    <!--
+    ****************************************************************
+       SECURITY
+    ****************************************************************
+    -->
+    
+    <security-constraint>
+
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+</web-app>
